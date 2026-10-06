@@ -218,6 +218,9 @@
 <li><strong>cut</strong>: Bins values into discrete intervals using equal-width binning</li>
 <li><strong>qcut</strong>: Bins values using quantile-based (equal-frequency) binning</li>
 <li><strong>Binner</strong>: Fitted binning transformer for consistent bin assignment</li></ul>
+<h3 id="polynomial-features">Polynomial Features</h3>
+<ul>
+<li><strong>PolynomialFeatures</strong>: Generates polynomial powers and feature interactions</li></ul>
 <h2 id="quick-start">Quick Start</h2>
 <h3 id="standard-scaling-z-score-normalization">Standard Scaling (Z-Score Normalization)</h3>
 <pre><code class="language-v"><span class="token keyword">import</span> vsl<span class="token punctuation">.</span>preprocessing
@@ -296,6 +299,17 @@ result2 <span class="token operator">:=</span> preprocessing<span class="token p
 <span class="token keyword">mut</span> binner <span class="token operator">:=</span> preprocessing<span class="token punctuation">.</span>Binner<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token punctuation">.</span>uniform<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'small'</span><span class="token punctuation">,</span> <span class="token string">'medium'</span><span class="token punctuation">,</span> <span class="token string">'large'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 binner<span class="token punctuation">.</span><span class="token function">fit</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token operator">!</span>
 binned <span class="token operator">:=</span> binner<span class="token punctuation">.</span><span class="token function">transform</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token operator">!</span></code></pre>
+<h3 id="polynomial-features">Polynomial Features</h3>
+<pre><code class="language-v"><span class="token keyword">import</span> vsl<span class="token punctuation">.</span>preprocessing
+
+data <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">4.0</span><span class="token punctuation">,</span> <span class="token number">5.0</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+features <span class="token operator">:=</span> preprocessing<span class="token punctuation">.</span>PolynomialFeatures<span class="token punctuation">{</span>
+    degree<span class="token punctuation">:</span> <span class="token number">2</span>
+<span class="token punctuation">}</span>
+expanded <span class="token operator">:=</span> features<span class="token punctuation">.</span><span class="token function">transform</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token operator">!</span>
+<span class="token comment">// Columns: [bias, x1, x2, x1^2, x1*x2, x2^2]</span>
+<span class="token comment">// First row: [1, 2, 3, 4, 6, 9]</span></code></pre>
+<p>Set <code>interaction_only: true</code> to exclude repeated input features in a term, or <code>include_bias: false</code> to omit the leading column of ones.</p>
 <h2 id="api-reference">API Reference</h2>
 <h3 id="standardscaler">StandardScaler</h3>
 <table>
@@ -434,6 +448,25 @@ binned <span class="token operator">:=</span> binner<span class="token punctuati
 <ul>
 <li><code>.uniform</code>: Equal-width bins</li>
 <li><code>.quantile</code>: Equal-frequency bins</li></ul>
+<h3 id="polynomialfeatures">PolynomialFeatures</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th></tr></thead>
+<tbody>
+<tr>
+<td><code>degree</code></td>
+<td>Maximum polynomial degree (default 2)</td></tr>
+<tr>
+<td><code>interaction_only</code></td>
+<td>Use each input feature at most once in each term</td></tr>
+<tr>
+<td><code>include_bias</code></td>
+<td>Add a leading column of ones (default true)</td></tr>
+<tr>
+<td><code>transform(data)</code></td>
+<td>Expands a rectangular matrix into polynomial features</td></tr></tbody></table>
 <h2 id="integration-with-ml-pipeline">Integration with ML Pipeline</h2>
 <pre><code class="language-v"><span class="token keyword">import</span> vsl<span class="token punctuation">.</span>preprocessing
 <span class="token keyword">import</span> vsl<span class="token punctuation">.</span>inout<span class="token punctuation">.</span>csv
@@ -790,6 +823,28 @@ prediction <span class="token operator">:=</span> model<span class="token punctu
 
 </section>
 
+		<section id="PolynomialFeatures" class="doc-node">
+			<div class="title"><h2>struct PolynomialFeatures <a href="#PolynomialFeatures">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/preprocessing/polynomial.v#L8"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+<div class="attributes"><div class="attribute">@[params]</div></div>
+<pre class="signature">
+<code><span class="token keyword">struct</span> PolynomialFeatures <span class="token punctuation">{</span>
+<span class="token keyword">pub</span><span class="token punctuation">:</span>
+	degree           <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">2</span>
+	interaction_only <span class="token builtin">bool</span>
+	include_bias     <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span></code></pre>
+<p>PolynomialFeatures generates all polynomial combinations up to degree. Interaction-only mode uses each input feature at most once per term.</p>
+
+</section>
+
+		<section id="PolynomialFeatures.transform" class="doc-node">
+			<div class="title"><h2>fn (PolynomialFeatures) transform <a href="#PolynomialFeatures.transform">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/preprocessing/polynomial.v#L17"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+<pre class="signature">
+<code><span class="token keyword">fn</span> <span class="token punctuation">(</span>p PolynomialFeatures<span class="token punctuation">)</span> <span class="token function">transform</span><span class="token punctuation">(</span>data <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">f64</span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">f64</span></code></pre>
+<p>transform expands each row into polynomial features. Output columns are ordered by degree, then lexicographically by input feature index.</p>
+
+</section>
+
 		<section id="RobustScaler" class="doc-node">
 			<div class="title"><h2>struct RobustScaler <a href="#RobustScaler">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/preprocessing/scalers.v#L214"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <div class="attributes"><div class="attribute">@[heap]</div></div>
@@ -879,7 +934,7 @@ prediction <span class="token operator">:=</span> model<span class="token punctu
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 5 Oct 2026 14:33:06</div>
+						<div class="footer">Powered by vdoc. Generated on: 6 Oct 2026 01:44:58</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_preprocessing">README</a></li>
 <li class="open"><a href="#cut">fn cut</a>        <ul>
@@ -947,6 +1002,10 @@ prediction <span class="token operator">:=</span> model<span class="token punctu
 <li><a href="#OrdinalEncoder.fit">fn fit</a></li>
 <li><a href="#OrdinalEncoder.transform">fn transform</a></li>
 <li><a href="#OrdinalEncoder.fit_transform">fn fit_transform</a></li>
+</ul>
+</li>
+<li class="open"><a href="#PolynomialFeatures">struct PolynomialFeatures</a>        <ul>
+<li><a href="#PolynomialFeatures.transform">fn transform</a></li>
 </ul>
 </li>
 <li class="open"><a href="#RobustScaler">struct RobustScaler</a>        <ul>

@@ -229,6 +229,8 @@ device<span class="token punctuation">.</span><span class="token function">add_p
 
 <span class="token comment">// Create and use buffers for computation</span>
 <span class="token comment">// (See examples directory for complete implementations)</span></code></pre>
+<h3 id="kernel-arguments-and-work-sizes">Kernel arguments and work sizes</h3>
+<p>Pass a vector's device buffer with <code>vector.buffer()</code>. Scalar argument widths must match the OpenCL kernel declaration: use <code>i32</code> for OpenCL <code>int</code>, <code>f32</code> for <code>float</code>, and <code>f64</code> for <code>double</code>. VCL treats each requested local work size as a maximum and selects a divisor of the corresponding global work size, so sizes such as 3 elements can run with a requested local size of 64.</p>
 <h2 id="-visual-gallery">📊 Visual Gallery</h2>
 <p>VCL enables creation of stunning GPU-accelerated visualizations:</p>
 <table>
@@ -260,6 +262,8 @@ device<span class="token punctuation">.</span><span class="token function">add_p
 <li><strong>Intel</strong>: Intel OpenCL Runtime or integrated graphics drivers</li></ul></li>
 <li>
 <p><strong>OpenCL Headers</strong>: Development headers for compilation</p></li></ol>
+<p>For CPU-only OpenCL development on Arch Linux, install the headers, ICD loader, and PoCL runtime:</p>
+<pre><code class="language-sh">sudo pacman <span class="token operator">-</span>S <span class="token operator">--</span>needed opencl<span class="token operator">-</span>headers ocl<span class="token operator">-</span>icd pocl</code></pre>
 <h3 id="platform-specific-installation">Platform-Specific Installation</h3>
 <p><strong>Ubuntu/Debian:</strong></p>
 <pre><code class="language-sh"><span class="token punctuation"># NVIDIA GPUs</span>
@@ -769,7 +773,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="Device.kernel" class="doc-node">
-			<div class="title"><h2>fn (Device) kernel <a href="#Device.kernel">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L7"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>fn (Device) kernel <a href="#Device.kernel">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L11"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>d <span class="token operator">&amp;</span>Device<span class="token punctuation">)</span> <span class="token function">kernel</span><span class="token punctuation">(</span>name <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token operator">&amp;</span>Kernel</code></pre>
 <p>kernel returns a kernel if retrieving the kernel didn't complete the function will return an error</p>
@@ -818,7 +822,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="Kernel" class="doc-node">
-			<div class="title"><h2>struct Kernel <a href="#Kernel">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L48"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>struct Kernel <a href="#Kernel">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L52"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">struct</span> Kernel <span class="token punctuation">{</span>
 	d <span class="token operator">&amp;</span>Device <span class="token operator">=</span> <span class="token keyword">unsafe</span> <span class="token punctuation">{</span> <span class="token keyword">nil</span> <span class="token punctuation">}</span>
@@ -829,7 +833,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="Kernel.global" class="doc-node">
-			<div class="title"><h2>fn (Kernel) global <a href="#Kernel.global">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L54"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>fn (Kernel) global <a href="#Kernel.global">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L58"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>k <span class="token operator">&amp;</span>Kernel<span class="token punctuation">)</span> <span class="token function">global</span><span class="token punctuation">(</span>global_work_sizes <span class="token punctuation">...</span><span class="token builtin">int</span><span class="token punctuation">)</span> KernelWithGlobal</code></pre>
 <p>global returns an kernel with global size set</p>
@@ -837,7 +841,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="KernelCall" class="doc-node">
-			<div class="title"><h2>struct KernelCall <a href="#KernelCall">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L79"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>struct KernelCall <a href="#KernelCall">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L83"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">struct</span> KernelCall <span class="token punctuation">{</span>
 	kernel            <span class="token operator">&amp;</span>Kernel <span class="token operator">=</span> <span class="token keyword">unsafe</span> <span class="token punctuation">{</span> <span class="token keyword">nil</span> <span class="token punctuation">}</span>
@@ -849,7 +853,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="KernelCall.run" class="doc-node">
-			<div class="title"><h2>fn (KernelCall) run <a href="#KernelCall.run">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L88"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>fn (KernelCall) run <a href="#KernelCall.run">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L92"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>kc KernelCall<span class="token punctuation">)</span> <span class="token function">run</span><span class="token punctuation">(</span>args <span class="token punctuation">...</span>ArgumentType<span class="token punctuation">)</span> <span class="token builtin">chan</span> IError</code></pre>
 <p>run calls the kernel on its device with specified global and local work sizes and arguments it's a non-blocking call, so it returns a channel that will send an error value when the kernel is done or nil if the call was successful</p>
@@ -857,7 +861,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="KernelWithGlobal" class="doc-node">
-			<div class="title"><h2>struct KernelWithGlobal <a href="#KernelWithGlobal">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L63"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>struct KernelWithGlobal <a href="#KernelWithGlobal">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L67"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">struct</span> KernelWithGlobal <span class="token punctuation">{</span>
 	kernel            <span class="token operator">&amp;</span>Kernel <span class="token operator">=</span> <span class="token keyword">unsafe</span> <span class="token punctuation">{</span> <span class="token keyword">nil</span> <span class="token punctuation">}</span>
@@ -868,10 +872,10 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="KernelWithGlobal.local" class="doc-node">
-			<div class="title"><h2>fn (KernelWithGlobal) local <a href="#KernelWithGlobal.local">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L69"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>fn (KernelWithGlobal) local <a href="#KernelWithGlobal.local">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L73"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>kg KernelWithGlobal<span class="token punctuation">)</span> <span class="token function">local</span><span class="token punctuation">(</span>local_work_sizes <span class="token punctuation">...</span><span class="token builtin">int</span><span class="token punctuation">)</span> KernelCall</code></pre>
-<p>local ets the local work sizes and returns an KernelCall which takes kernel arguments and runs the kernel</p>
+<p>local sets the maximum local work sizes and returns a KernelCall.</p>
 
 </section>
 
@@ -892,7 +896,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="UnsupportedArgumentTypeError" class="doc-node">
-			<div class="title"><h2>struct UnsupportedArgumentTypeError <a href="#UnsupportedArgumentTypeError">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L29"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>struct UnsupportedArgumentTypeError <a href="#UnsupportedArgumentTypeError">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L33"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">struct</span> UnsupportedArgumentTypeError <span class="token punctuation">{</span>
 	Error
@@ -905,7 +909,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 		<section id="UnsupportedArgumentTypeError.msg" class="doc-node">
-			<div class="title"><h2>fn (UnsupportedArgumentTypeError) msg <a href="#UnsupportedArgumentTypeError.msg">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L36"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
+			<div class="title"><h2>fn (UnsupportedArgumentTypeError) msg <a href="#UnsupportedArgumentTypeError.msg">#</a></h2><a class="link" rel="noreferrer" target="_blank" href="https://github.com/vlang/vsl/blob/master/vcl/kernel.c.v#L40"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></div>
 <pre class="signature">
 <code><span class="token keyword">fn</span> <span class="token punctuation">(</span>err UnsupportedArgumentTypeError<span class="token punctuation">)</span> <span class="token function">msg</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">string</span></code></pre>
 
@@ -924,7 +928,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 5 Oct 2026 14:33:06</div>
+						<div class="footer">Powered by vdoc. Generated on: 6 Oct 2026 01:44:58</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_vcl">README</a></li>
 <li class="open"><a href="#error_from_code">fn error_from_code</a>        <ul>

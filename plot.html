@@ -278,6 +278,23 @@ prices <span class="token operator">:=</span> <span class="token punctuation">[<
 plt<span class="token punctuation">.</span><span class="token function">line</span><span class="token punctuation">(</span>x<span class="token punctuation">:</span> dates<span class="token punctuation">,</span> y<span class="token punctuation">:</span> prices<span class="token punctuation">,</span> mode<span class="token punctuation">:</span> <span class="token string">'lines+markers'</span><span class="token punctuation">)</span>
 plt<span class="token punctuation">.</span><span class="token function">layout</span><span class="token punctuation">(</span>title<span class="token punctuation">:</span> <span class="token string">'Stock Price Trend'</span><span class="token punctuation">)</span>
 plt<span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">!</span></code></pre>
+<h3 id="multi-line-titles-and-annotation-alignment">Multi-line Titles and Annotation Alignment</h3>
+<p>Use Plotly's <code>&lt;br&gt;</code> line break in a title to display a subtitle on a second line. Annotation <code>align</code> controls how multiple lines of text are aligned inside the annotation box. To place the box at a different location in the plot, set its data coordinates with <code>x</code> and <code>y</code>, and choose which side of the box is anchored to that point with <code>xanchor</code> (<code>left</code>, <code>center</code>, or <code>right</code>).</p>
+<pre><code class="language-v"><span class="token keyword">import</span> vsl<span class="token punctuation">.</span>plot
+
+<span class="token keyword">mut</span> plt <span class="token operator">:=</span> plot<span class="token punctuation">.</span>Plot<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span><span class="token function">scatter</span><span class="token punctuation">(</span>x<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> mode<span class="token punctuation">:</span> <span class="token string">'lines+markers'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span><span class="token function">annotation</span><span class="token punctuation">(</span>
+    x<span class="token punctuation">:</span>         <span class="token number">2.0</span>
+    y<span class="token punctuation">:</span>         <span class="token number">3.0</span>
+    text<span class="token punctuation">:</span>      <span class="token string">'Peak value&lt;br&gt;second line'</span>
+    align<span class="token punctuation">:</span>     <span class="token string">'left'</span>
+    xanchor<span class="token punctuation">:</span>   <span class="token string">'right'</span>
+    showarrow<span class="token punctuation">:</span> <span class="token boolean">false</span>
+<span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span><span class="token function">layout</span><span class="token punctuation">(</span>title<span class="token punctuation">:</span> <span class="token string">'Measurements&lt;br&gt;Peak annotation example'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">!</span></code></pre>
+<p><code>align: 'left'</code> affects the two text lines inside the box. <code>xanchor: 'right'</code> places the box to the left of the point at <code>(2, 3)</code>. See <a href="https://github.com/vlang/vsl/blob/master/plot/plot_test.v"><code>plot_test.v</code></a> for title and annotation serialization tests.</p>
 <h3 id="box-plot-statistical-analysis">Box Plot (Statistical Analysis)</h3>
 <pre><code class="language-v"><span class="token keyword">import</span> vsl<span class="token punctuation">.</span>plot
 
@@ -2359,7 +2376,7 @@ plt<span class="token punctuation">.</span><span class="token function">show</sp
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 5 Oct 2026 14:33:06</div>
+						<div class="footer">Powered by vdoc. Generated on: 6 Oct 2026 01:44:58</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_plot">README</a></li>
 <li class="open"><a href="#plot_actual_vs_predicted">fn plot_actual_vs_predicted</a>        <ul>

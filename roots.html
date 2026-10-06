@@ -200,8 +200,44 @@
 					<div class="doc-content">
 								<section id="readme_roots" class="doc-node">
 			<div class="title"><h1> roots <a href="#readme_roots">#</a></h1></div>
-<h1 id="one-dimensional-root-finding">One Dimensional Root-Finding</h1>
-<p>The module <code>vsl.roots</code> contains functions for the root finding methods and related declarations.</p>
+<h1 id=""><code>vsl.roots</code></h1>
+<p>Root-finding routines in <code>vsl.roots</code> accept callbacks from <a href="https://github.com/vlang/vsl/blob/master/func/func.v"><code>vsl.func</code></a>. The currently usable solvers are:</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Method</th>
+<th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td><code>newton(f, x0, x_eps, fx_eps, n_max)</code></td>
+<td>Newton iteration</td>
+<td>Uses a function and derivative callback (<code>FnFdf</code>).</td></tr>
+<tr>
+<td><code>newton_bisection(f, x_min, x_max, tol, max_iter)</code></td>
+<td>Newton with bisection safeguard</td>
+<td>Requires a bracket and derivative callback.</td></tr>
+<tr>
+<td><code>Bisection.new(f, params).solve()</code></td>
+<td>Bisection</td>
+<td>Requires a sign-changing interval; returns the last iteration or the limit result.</td></tr></tbody></table>
+<p><code>BisectionParams</code> configures bounds, relative and absolute tolerances, and the iteration limit. <code>Bisection.next()</code> exposes individual steps. The <code>Brent</code> type currently has a constructor and an internal algorithm but does not expose a public <code>solve</code> or iteration method yet.</p>
+<pre><code class="language-v"><span class="token keyword">import</span> math
+<span class="token keyword">import</span> vsl<span class="token punctuation">.</span>func
+<span class="token keyword">import</span> vsl<span class="token punctuation">.</span>roots
+
+<span class="token keyword">fn</span> <span class="token function">objective</span><span class="token punctuation">(</span>x <span class="token builtin">f64</span><span class="token punctuation">,</span> _ <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">f64</span><span class="token punctuation">)</span> <span class="token builtin">f64</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> math<span class="token punctuation">.</span><span class="token function">cos</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+f <span class="token operator">:=</span> func<span class="token punctuation">.</span>Fn<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span>f<span class="token punctuation">:</span> objective<span class="token punctuation">)</span>
+<span class="token keyword">mut</span> solver <span class="token operator">:=</span> roots<span class="token punctuation">.</span>Bisection<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span>f<span class="token punctuation">,</span> roots<span class="token punctuation">.</span>BisectionParams<span class="token punctuation">{</span>
+    xmin<span class="token punctuation">:</span> <span class="token number">0.0</span>
+    xmax<span class="token punctuation">:</span> <span class="token number">3.0</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+result <span class="token operator">:=</span> solver<span class="token punctuation">.</span><span class="token function">solve</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">or</span> <span class="token punctuation">{</span> <span class="token function">panic</span><span class="token punctuation">(</span><span class="token string">'root was not found'</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
+<span class="token function">println</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>x<span class="token punctuation">)</span></code></pre>
+<p>See the <a href="https://github.com/vlang/vsl/blob/master/examples/roots_bisection_solver/README.md">bisection example</a>, <a href="https://github.com/vlang/vsl/blob/master/roots/bisection.v"><code>bisection.v</code></a>, and <a href="https://github.com/vlang/vsl/blob/master/roots/newton.v"><code>newton.v</code></a>.</p>
 
 </section>
 
@@ -335,7 +371,7 @@
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 5 Oct 2026 14:33:06</div>
+						<div class="footer">Powered by vdoc. Generated on: 6 Oct 2026 01:44:58</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_roots">README</a></li>
 <li class="open"><a href="#newton">fn newton</a>        <ul>

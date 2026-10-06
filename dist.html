@@ -200,8 +200,42 @@
 					<div class="doc-content">
 								<section id="readme_dist" class="doc-node">
 			<div class="title"><h1> dist <a href="#readme_dist">#</a></h1></div>
-<h1 id="probability-distributions-algorithms">Probability Distributions algorithms</h1>
-<p>This module provides functions for computing probability distributions.</p>
+<h1 id=""><code>vsl.dist</code></h1>
+<p><code>vsl.dist</code> provides histogram binning and text rendering for numeric samples. <code>Histogram</code> stores bin boundaries and counts; boundaries should be supplied in ascending order.</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Purpose</th></tr></thead>
+<tbody>
+<tr>
+<td><code>Histogram.new(stations)</code></td>
+<td>Create a histogram from bin boundaries.</td></tr>
+<tr>
+<td><code>find_bin(x)</code></td>
+<td>Return the matching bin index or an error when outside the range.</td></tr>
+<tr>
+<td><code>count(values, clear)</code></td>
+<td>Count values, optionally resetting prior counts first.</td></tr>
+<tr>
+<td><code>gen_labels(format)</code></td>
+<td>Format the bins as display labels.</td></tr>
+<tr>
+<td><code>density_area(nsamples)</code></td>
+<td>Estimate the normalized area from accumulated counts.</td></tr>
+<tr>
+<td><code>text_hist(labels, counts, barlen)</code></td>
+<td>Render labeled counts as a text chart.</td></tr>
+<tr>
+<td><code>build_text_hist(...)</code></td>
+<td>Build a histogram and render it in one call.</td></tr></tbody></table>
+<pre><code class="language-v"><span class="token keyword">import</span> vsl<span class="token punctuation">.</span>dist
+
+<span class="token keyword">mut</span> histogram <span class="token operator">:=</span> dist<span class="token punctuation">.</span>Histogram<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+histogram<span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0.2</span><span class="token punctuation">,</span> <span class="token number">0.7</span><span class="token punctuation">,</span> <span class="token number">1.4</span><span class="token punctuation">,</span> <span class="token number">2.8</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token operator">!</span>
+labels <span class="token operator">:=</span> histogram<span class="token punctuation">.</span><span class="token function">gen_labels</span><span class="token punctuation">(</span><span class="token string">'%g'</span><span class="token punctuation">)</span><span class="token operator">!</span>
+<span class="token function">println</span><span class="token punctuation">(</span>dist<span class="token punctuation">.</span><span class="token function">text_hist</span><span class="token punctuation">(</span>labels<span class="token punctuation">,</span> histogram<span class="token punctuation">.</span>counts<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">)</span></code></pre>
+<p>See the <a href="https://github.com/vlang/vsl/blob/master/examples/dist_histogram/README.md">histogram example</a> and <a href="https://github.com/vlang/vsl/blob/master/dist/hist.v"><code>hist.v</code></a> for formatting and boundary behavior.</p>
 
 </section>
 
@@ -274,7 +308,7 @@
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 5 Oct 2026 14:33:05</div>
+						<div class="footer">Powered by vdoc. Generated on: 6 Oct 2026 01:44:58</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_dist">README</a></li>
 <li class="open"><a href="#build_text_hist">fn build_text_hist</a>        <ul>

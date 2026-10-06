@@ -202,6 +202,7 @@
 			<div class="title"><h1> la <a href="#readme_la">#</a></h1></div>
 <h1 id="linear-algebra-la-module">Linear Algebra (la) Module</h1>
 <p>The <code>vsl.la</code> module provides comprehensive linear algebra operations for scientific computing, including matrix operations, vector manipulations, and numerical linear algebra algorithms.</p>
+<p>MPI is not required for the standard <code>vsl.la</code> API. Communicator support on <code>SparseConfig</code> is opt-in at compile time with <code>-d vsl_mpi</code>; enabling it requires an MPI implementation and exposes <code>SparseConfig.with_comm</code>. Without the flag, <code>SparseConfig.new</code> and non-MPI solvers do not import MPI headers or libraries.</p>
 <h2 id="-features">🚀 Features</h2>
 <h3 id="matrix-operations">Matrix Operations</h3>
 <ul>
@@ -1307,7 +1308,7 @@ tr <span class="token operator">:=</span> la<span class="token punctuation">.</s
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 5 Oct 2026 14:33:05</div>
+						<div class="footer">Powered by vdoc. Generated on: 6 Oct 2026 01:44:58</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_la">README</a></li>
 <li class="open"><a href="#center_matrix">fn center_matrix</a>        <ul>
