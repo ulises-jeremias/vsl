@@ -282,8 +282,7 @@ sudo apt<span class="token operator">-</span>get install intel<span class="token
 clinfo  <span class="token punctuation"># If available on your system</span>
 
 <span class="token punctuation"># Or run a VCL example</span>
-cd examples<span class="token operator">/</span>vcl_opencl_basic
-v run main<span class="token punctuation">.</span>v</code></pre>
+v run <span class="token punctuation">.</span><span class="token operator">/</span>vsl<span class="token operator">/</span>examples<span class="token operator">/</span>vcl_opencl_basic<span class="token operator">/</span>main<span class="token punctuation">.</span>v</code></pre>
 <p>By default VCL uses the OpenCL headers from the system path and all the known locations for OpenCL headers (like <code>/usr/include</code> and <code>/usr/local/include</code>) and load the first header it finds. If you want to use a specific OpenCL header, you can add the <code>-I</code> flag into your V program with the path to the headers directory.</p>
 <pre><code class="language-v"><span class="token punctuation">#flag -I/custom/path/to/opencl/headers</span></code></pre>
 <p>or at compile time:</p>
@@ -928,7 +927,7 @@ export VCL_LIBOPENCL_PATH<span class="token operator">=</span><span class="token
 </section>
 
 
-						<div class="footer">Powered by vdoc. Generated on: 6 Oct 2026 01:44:58</div>
+						<div class="footer">Powered by vdoc. Generated on: 7 Oct 2026 03:41:16</div>
 					</div>
 					<div class="doc-toc"><ul><li class="open"><a href="#readme_vcl">README</a></li>
 <li class="open"><a href="#error_from_code">fn error_from_code</a>        <ul>
